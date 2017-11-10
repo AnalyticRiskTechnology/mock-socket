@@ -18,8 +18,17 @@ class NetworkBridge {
   * @param {string} url
   */
   attachWebSocket(websocket, url) {
-    const connectionLookup = this.urlMap[url];
-
+    let connectionLookup = this.urlMap[url];
+    if (! connectionLookup) {
+        const keys = Object.keys(this.urlMap);
+        let i = 0;
+        while (! connectionLookup && i < keys.length) {
+          if (url.startsWith(keys[i])) {
+            connectionLookup = this.urlMap[keys[i]];
+          }
+          i++;
+        }
+    }
     if (connectionLookup && connectionLookup.server && connectionLookup.websockets.indexOf(websocket) === -1) {
       connectionLookup.websockets.push(websocket);
       return connectionLookup.server;

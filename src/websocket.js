@@ -85,6 +85,7 @@ class WebSocket extends EventTarget {
       }
     });
 
+
     const server = networkBridge.attachWebSocket(this, this.url);
 
     /*
