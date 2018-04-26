@@ -32,7 +32,7 @@ class NetworkBridge {
   * @param {string} url
   */
   attachWebSocket(websocket, url) {
-    let connectionLookup = getConnectionLookup(url);
+    let connectionLookup = this.getConnectionLookup(url);
     if (connectionLookup && connectionLookup.server && connectionLookup.websockets.indexOf(websocket) === -1) {
       connectionLookup.websockets.push(websocket);
       return connectionLookup.server;
@@ -43,7 +43,7 @@ class NetworkBridge {
   * Attaches a websocket to a room
   */
   addMembershipToRoom(websocket, room) {
-    const connectionLookup = getConnectionLookup(websocket.url);
+    const connectionLookup = this.getConnectionLookup(websocket.url);
 
     if (connectionLookup && connectionLookup.server && connectionLookup.websockets.indexOf(websocket) !== -1) {
       if (!connectionLookup.roomMemberships[room]) {
@@ -62,7 +62,7 @@ class NetworkBridge {
   * @param {string} url
   */
   attachServer(server, url) {
-    const connectionLookup = getConnectionLookup(url);
+    const connectionLookup = this.getConnectionLookup(url);
 
     if (!connectionLookup) {
       this.urlMap[url] = {
@@ -81,7 +81,7 @@ class NetworkBridge {
   * @param {string} url - the url to use to find which server is running on it
   */
   serverLookup(url) {
-    const connectionLookup = getConnectionLookup(url);
+    const connectionLookup = this.getConnectionLookup(url);
 
     if (connectionLookup) {
       return connectionLookup.server;
@@ -97,7 +97,7 @@ class NetworkBridge {
   */
   websocketsLookup(url, room, broadcaster) {
     let websockets;
-    const connectionLookup = getConnectionLookup(url);
+    const connectionLookup = this.getConnectionLookup(url);
 
     websockets = connectionLookup ? connectionLookup.websockets : [];
 
@@ -125,7 +125,7 @@ class NetworkBridge {
   * @param {string} url
   */
   removeWebSocket(websocket, url) {
-    const connectionLookup = getConnectionLookup(url);
+    const connectionLookup = this.getConnectionLookup(url);
 
     if (connectionLookup) {
       connectionLookup.websockets = reject(connectionLookup.websockets, socket => socket === websocket);
@@ -136,7 +136,7 @@ class NetworkBridge {
   * Removes a websocket from a room
   */
   removeMembershipFromRoom(websocket, room) {
-    const connectionLookup = getConnectionLookup(websocket.url);
+    const connectionLookup = this.getConnectionLookup(websocket.url);
     const memberships = connectionLookup.roomMemberships[room];
 
     if (connectionLookup && memberships !== null) {
