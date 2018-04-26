@@ -12,8 +12,10 @@ class NetworkBridge {
 
   getConnectionLookup(url) {
     let connectionLookup = this.urlMap[url];
+  	//console.log("getConnectionLookup:", url, connectionLookup);
     if (! connectionLookup) {
         const keys = Object.keys(this.urlMap);
+        //console.log("getConnectionLookup:keys:", keys);
         let i = 0;
         while (! connectionLookup && i < keys.length) {
           if (url.startsWith(keys[i])) {
@@ -65,6 +67,7 @@ class NetworkBridge {
     const connectionLookup = this.getConnectionLookup(url);
 
     if (!connectionLookup) {
+      //console.log("attachServer:", url);
       this.urlMap[url] = {
         server,
         websockets: [],
@@ -115,6 +118,7 @@ class NetworkBridge {
   * @param {string} url
   */
   removeServer(url) {
+    //console.log("removeServer:", url);
     delete this.urlMap[url];
   }
 
@@ -125,6 +129,7 @@ class NetworkBridge {
   * @param {string} url
   */
   removeWebSocket(websocket, url) {
+    //console.log("removeWebSocket:", url);
     const connectionLookup = this.getConnectionLookup(url);
 
     if (connectionLookup) {
